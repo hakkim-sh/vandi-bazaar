@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VandiBazaar | Trusted Second Hand Cars & Bikes Marketplace</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            },
+            racing: {
+              emerald: '#10b981',
+              dark: '#0f172a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .badge-shimmer {
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 2.5s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+
+  <!-- ================= TOP NOTIFICATION BAR ================= -->
+  <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+          <i class="fa-solid fa-shield-halved mr-1"></i> 140-POINT VERIFIED
+        </span>
+        <span class="text-slate-300">Tamil Nadu & South India's #1 Certified Vehicle Hub</span>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="tel:+919876543210" class="hover:text-white flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-phone text-orange-500"></i> +91 98765 43210
+        </a>
+        <span class="text-slate-600">|</span>
+        <span class="flex items-center gap-1 text-slate-300"><i class="fa-solid fa-truck-fast text-emerald-400"></i> Doorstep Test Drives</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN HEADER ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-4">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group flex-shrink-0">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/25 group-hover:scale-105 transition-transform duration-300">
+            <i class="fa-solid fa-gauge-high text-xl"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-1">
+              <span class="text-2xl font-extrabold font-heading tracking-tight text-slate-900">Vandi<span class="text-orange-600">Bazaar</span></span>
+              <span class="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">PRO</span>
+            </div>
+            <p class="text-[11px] font-medium text-slate-500 tracking-wide">Trusted Cars & Bikes Marketplace</p>
+          </div>
+        </a>
+
+        <!-- Location Dropdown Selector -->
+        <div class="hidden lg:flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 transition">
+          <i class="fa-solid fa-location-dot text-orange-600"></i>
+          <select id="locationSelector" class="bg-transparent border-none outline-none cursor-pointer pr-2 text-slate-800 font-bold">
+            <option value="All">All Tamil Nadu</option>
+            <option value="Chennai" selected>Chennai</option>
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Madurai">Madurai</option>
+            <option value="Salem">Salem</option>
+            <option value="Trichy">Trichy</option>
+            <option value="Bengaluru">Bengaluru</option>
+          </select>
+        </div>
+
+        <!-- Global Search Bar -->
+        <div class="flex-1 max-w-xl mx-2 hidden md:block">
+          <div class="relative">
+            <input 
+              type="text" 
+              id="globalSearch" 
+              placeholder="Search by brand, model, city, e.g., 'Swift', 'Royal Enfield'..." 
+              class="w-full pl-11 pr-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all shadow-inner"
+            >
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+          </div>
+        </div>
+
+        <!-- Right Action CTAs -->
+        <div class="flex items-center gap-3">
+          <button 
+            id="openSellModalBtn" 
+            class="relative inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 shadow-lg shadow-orange-500/20 active:scale-95 transition-all">
+            <i class="fa-solid fa-plus-circle text-base"></i>
+            <span>Sell Vehicle</span>
+            <span class="hidden sm:inline-block text-[11px] font-medium bg-black/20 px-2 py-0.5 rounded-full">Free</span>
+          </button>
+
+          <button 
+            id="savedVehiclesBtn"
+            class="p-2.5 text-slate-600 hover:text-orange-600 hover:bg-orange-50 rounded-xl relative transition" 
+            title="Wishlist">
+            <i class="fa-regular fa-heart text-lg"></i>
+            <span id="savedCountBadge" class="absolute -top-1 -right-1 bg-orange-600 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Quick Category Strip -->
+      <div class="flex items-center gap-2 overflow-x-auto py-2.5 border-t border-slate-100 no-scrollbar text-xs font-semibold">
+        <button onclick="filterCategory('All')" class="category-pill active-pill whitespace-nowrap px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 bg-slate-900 text-white shadow-sm">
+          <i class="fa-solid fa-border-all text-xs"></i> All Inventory
+        </button>
+        <button onclick="filterCategory('Car')" class="category-pill whitespace-nowrap px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-100">
+          <i class="fa-solid fa-car text-xs text-orange-600"></i> Cars & SUVs
+        </button>
+        <button onclick="filterCategory('Bike')" class="category-pill whitespace-nowrap px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-100">
+          <i class="fa-solid fa-motorcycle text-xs text-blue-600"></i> Motorcycles
+        </button>
+        <button onclick="filterCategory('Superbike')" class="category-pill whitespace-nowrap px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-100">
+          <i class="fa-solid fa-bolt text-xs text-amber-500"></i> Superbikes
+        </button>
+        <button onclick="filterCategory('Electric')" class="category-pill whitespace-nowrap px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-100">
+          <i class="fa-solid fa-charging-station text-xs text-emerald-500"></i> Electric (EV)
+        </button>
+        <button onclick="filterCategory('Commercial')" class="category-pill whitespace-nowrap px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-100">
+          <i class="fa-solid fa-truck-pickup text-xs text-purple-600"></i> Commercial Pickups
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white pt-12 pb-20 overflow-hidden">
+    <!-- Subtle background lights -->
+    <div class="absolute -top-40 -right-40 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 -left-40 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+            100% RC Verified & Clean Titles
+          </div>
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-heading leading-tight tracking-tight">
+            Find Clean, Certified <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-emerald-400">Cars & Bikes</span> Near You.
+          </h1>
+          <p class="text-slate-300 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
+            Zero commission headaches. Buy inspected pre-owned rides with complete service history, warranty cover, and instant loan approval.
+          </p>
+
+          <!-- Quick Trust Stats -->
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800/80 max-w-lg">
+            <div>
+              <p class="text-2xl font-black text-white font-heading">3,500+</p>
+              <p class="text-xs text-slate-400">Inspected Rides</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black text-emerald-400 font-heading">1 Year</p>
+              <p class="text-xs text-slate-400">Free Warranty</p>
+            </div>
+            <div>
+              <p class="text-2xl font-black text-amber-400 font-heading">7-Day</p>
+              <p class="text-xs text-slate-400">Moneyback Guarantee</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Filter Card (Hero Search) -->
+        <div class="lg:col-span-5">
+          <div class="bg-white text-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-100 relative">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+              <span class="font-bold font-heading text-lg text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-orange-500"></i> Quick Vehicle Match
+              </span>
+              <span class="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-1 rounded-lg">Instant Match</span>
+            </div>
+
+            <div class="space-y-4 mt-4">
+              <!-- Vehicle Segment Switcher -->
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Vehicle Type</label>
+                <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+                  <button type="button" id="heroTabCar" onclick="selectHeroType('Car')" class="py-2 text-xs font-bold rounded-lg text-white bg-slate-900 shadow transition-all">
+                    <i class="fa-solid fa-car mr-1"></i> Car / SUV
+                  </button>
+                  <button type="button" id="heroTabBike" onclick="selectHeroType('Bike')" class="py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition-all">
+                    <i class="fa-solid fa-motorcycle mr-1"></i> Bike / Scooter
+                  </button>
+                </div>
+              </div>
+
+              <!-- Brand Dropdown -->
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Preferred Brand</label>
+                <select id="heroBrandSelect" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                  <option value="All">All Popular Brands</option>
+                  <option value="Hyundai">Hyundai</option>
+                  <option value="Maruti Suzuki">Maruti Suzuki</option>
+                  <option value="Tata">Tata Motors</option>
+                  <option value="Royal Enfield">Royal Enfield</option>
+                  <option value="Yamaha">Yamaha</option>
+                  <option value="Honda">Honda</option>
+                  <option value="KTM">KTM</option>
+                  <option value="Ather">Ather / EV</option>
+                </select>
+              </div>
+
+              <!-- Budget Range Quick Pick -->
+              <div>
+                <div class="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                  <span>Max Budget</span>
+                  <span id="heroBudgetDisplay" class="text-orange-600 font-black">₹ 12,00,000</span>
+                </div>
+                <input 
+                  type="range" 
+                  id="heroBudgetSlider" 
+                  min="40000" 
+                  max="2500000" 
+                  step="25000" 
+                  value="1200000"
+                  class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-orange-600"
+                  oninput="updateHeroBudgetValue(this.value)"
+                >
+                <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                  <span>₹40K</span>
+                  <span>₹10L</span>
+                  <span>₹25L+</span>
+                </div>
+              </div>
+
+              <!-- Submit Filter -->
+              <button 
+                onclick="applyHeroFilters()" 
+                class="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-orange-600/30 flex items-center justify-center gap-2 active:scale-[0.98]">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span id="heroSearchBtnLabel">Search 10+ Vehicles</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN CONTENT & LISTING SECTION ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+    
+    <!-- Controls Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div>
+        <h2 class="text-2xl font-extrabold font-heading text-slate-900 tracking-tight flex items-center gap-2">
+          <span>Featured Second-Hand Vehicles</span>
+          <span id="resultCountPill" class="text-xs bg-slate-200 text-slate-700 font-bold px-2.5 py-1 rounded-full">Showing 8 vehicles</span>
+        </h2>
+        <p class="text-xs text-slate-500 mt-0.5">Thoroughly inspected, clean paper verification, and transparent price tags.</p>
+      </div>
+
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <!-- Sort Dropdown -->
+        <div class="flex items-center gap-2 text-xs font-semibold text-slate-600 w-full md:w-auto justify-between md:justify-start">
+          <label for="sortBy" class="whitespace-nowrap"><i class="fa-solid fa-arrow-down-wide-short text-orange-500 mr-1"></i> Sort:</label>
+          <select id="sortBy" onchange="applyAllFilters()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer shadow-sm">
+            <option value="featured">Featured First</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="km-asc">Lowest Kilometers</option>
+            <option value="year-desc">Newest Model Year</option>
+          </select>
+        </div>
+
+        <!-- Mobile Filter Toggle Button -->
+        <button 
+          onclick="toggleMobileFilter()" 
+          class="lg:hidden px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 flex items-center gap-2 hover:bg-slate-50">
+          <i class="fa-solid fa-filter text-orange-600"></i> Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Layout: Filter Sidebar + Products Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- ================= FILTER SIDEBAR ================= -->
+      <aside id="filterSidebar" class="hidden lg:block lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-6 h-fit sticky top-28">
+        
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <span class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-filter text-orange-500"></i> Filter Search
+          </span>
+          <button onclick="resetFilters()" class="text-[11px] font-bold text-orange-600 hover:text-orange-700 hover:underline">
+            Reset All
+          </button>
+        </div>
+
+        <!-- Vehicle Type Filter -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Vehicle Category</label>
+          <div class="flex flex-wrap gap-1.5">
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sideType" value="All" checked onchange="applyAllFilters()" class="peer sr-only">
+              <div class="text-center py-2 px-2 rounded-xl text-xs font-bold border border-slate-200 text-slate-600 peer-checked:bg-orange-600 peer-checked:text-white peer-checked:border-orange-600 transition">All</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sideType" value="Car" onchange="applyAllFilters()" class="peer sr-only">
+              <div class="text-center py-2 px-2 rounded-xl text-xs font-bold border border-slate-200 text-slate-600 peer-checked:bg-orange-600 peer-checked:text-white peer-checked:border-orange-600 transition">Cars</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sideType" value="Bike" onchange="applyAllFilters()" class="peer sr-only">
+              <div class="text-center py-2 px-2 rounded-xl text-xs font-bold border border-slate-200 text-slate-600 peer-checked:bg-orange-600 peer-checked:text-white peer-checked:border-orange-600 transition">Bikes</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Price Range Slider -->
+        <div>
+          <div class="flex justify-between items-center text-xs mb-1.5 font-bold">
+            <span class="text-slate-600 uppercase tracking-wider">Max Price</span>
+            <span id="sideBudgetVal" class="text-orange-600 font-extrabold text-sm">₹ 20,00,000</span>
+          </div>
+          <input 
+            type="range" 
+            id="sideBudgetSlider" 
+            min="35000" 
+            max="2500000" 
+            step="20000" 
+            value="2500000" 
+            oninput="updateSidePriceDisplay(this.value)"
+            class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-orange-600"
+          >
+          <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+            <span>₹35K</span>
+            <span>₹10L</span>
+            <span>₹25L</span>
+          </div>
+        </div>
+
+        <!-- Fuel Type Checkboxes -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Fuel Type</label>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium">
+              <input type="checkbox" name="fuelFilter" value="Petrol" onchange="applyAllFilters()" class="rounded text-orange-600 focus:ring-orange-500 w-4 h-4" checked>
+              <span>Petrol</span>
+            </label>
+            <label class="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium">
+              <input type="checkbox" name="fuelFilter" value="Diesel" onchange="applyAllFilters()" class="rounded text-orange-600 focus:ring-orange-500 w-4 h-4" checked>
+              <span>Diesel</span>
+            </label>
+            <label class="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium">
+              <input type="checkbox" name="fuelFilter" value="Electric" onchange="applyAllFilters()" class="rounded text-orange-600 focus:ring-orange-500 w-4 h-4" checked>
+              <span>Electric (EV)</span>
+            </label>
+            <label class="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer font-medium">
+              <input type="checkbox" name="fuelFilter" value="CNG" onchange="applyAllFilters()" class="rounded text-orange-600 focus:ring-orange-500 w-4 h-4" checked>
+              <span>CNG</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Ownership Count -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Ownership</label>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="cursor-pointer">
+              <input type="checkbox" name="ownerFilter" value="1st Owner" onchange="applyAllFilters()" class="peer sr-only" checked>
+              <div class="py-2 px-2 text-center border border-slate-200 rounded-xl font-semibold text-slate-700 peer-checked:bg-slate-900 peer-checked:text-white transition">1st Owner</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="checkbox" name="ownerFilter" value="2nd Owner" onchange="applyAllFilters()" class="peer sr-only" checked>
+              <div class="py-2 px-2 text-center border border-slate-200 rounded-xl font-semibold text-slate-700 peer-checked:bg-slate-900 peer-checked:text-white transition">2nd Owner</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Transmission -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Transmission</label>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="cursor-pointer">
+              <input type="radio" name="transFilter" value="All" checked onchange="applyAllFilters()" class="peer sr-only">
+              <div class="py-2 px-2 text-center border border-slate-200 rounded-xl font-semibold text-slate-700 peer-checked:bg-orange-600 peer-checked:text-white transition">Any</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="transFilter" value="Manual" onchange="applyAllFilters()" class="peer sr-only">
+              <div class="py-2 px-2 text-center border border-slate-200 rounded-xl font-semibold text-slate-700 peer-checked:bg-orange-600 peer-checked:text-white transition">Manual</div>
+            </label>
+            <label class="cursor-pointer col-span-2">
+              <input type="radio" name="transFilter" value="Automatic" onchange="applyAllFilters()" class="peer sr-only">
+              <div class="py-2 px-2 text-center border border-slate-200 rounded-xl font-semibold text-slate-700 peer-checked:bg-orange-600 peer-checked:text-white transition">Automatic / AMT</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Clean Assurance Banner -->
+        <div class="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-start gap-3">
+          <i class="fa-solid fa-circle-check text-emerald-600 text-lg mt-0.5"></i>
+          <div>
+            <p class="text-xs font-bold text-emerald-950">VandiBazaar Guarantee</p>
+            <p class="text-[11px] text-emerald-700 leading-tight mt-0.5">No accidental chassis damage, meter tampering checked, and verified documents.</p>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ================= VEHICLE CARDS GRID ================= -->
+      <section class="lg:col-span-3">
+        
+        <!-- Active Filter Tags Container -->
+        <div id="activeTagsContainer" class="flex flex-wrap items-center gap-2 mb-4 text-xs font-medium text-slate-600">
+          <!-- Filled dynamically via JS -->
+        </div>
+
+        <!-- Cards Container -->
+        <div id="vehiclesGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="noResultsState" class="hidden text-center py-16 px-4 bg-white rounded-3xl border border-slate-200">
+          <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+            <i class="fa-solid fa-car-tunnel"></i>
+          </div>
+          <h3 class="text-lg font-bold font-heading text-slate-900">No Vehicles Match Your Criteria</h3>
+          <p class="text-sm text-slate-500 max-w-sm mx-auto mt-1 mb-6">Try adjusting your budget slider, changing the city selector, or resetting your filter choices.</p>
+          <button onclick="resetFilters()" class="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition">
+            Reset Filters
+          </button>
+        </div>
+
+      </section>
+    </div>
+
+  </main>
+
+  <!-- ================= VEHICLE DETAILS MODAL ================= -->
+  <div id="detailsModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 my-auto animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modalCategoryBadge" class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-orange-100 text-orange-700">CAR</span>
+            <span id="modalInspectedTag" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 flex items-center gap-1">
+              <i class="fa-solid fa-circle-check"></i> 140-PT CERTIFIED
+            </span>
+          </div>
+          <h3 id="modalTitle" class="text-xl sm:text-2xl font-black font-heading text-slate-900 mt-1">Vehicle Title</h3>
+        </div>
+        <button onclick="closeDetailsModal()" class="w-9 h-9 rounded-full bg-slate-200/80 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-6">
+        
+        <!-- Image & Key Overview Grid -->
+        <div class="grid md:grid-cols-12 gap-6 items-start">
+          
+          <div class="md:col-span-7">
+            <div class="relative rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 aspect-video shadow-inner">
+              <img id="modalMainImg" src="" alt="Vehicle image" class="w-full h-full object-cover">
+              <div class="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-orange-400"></i>
+                <span id="modalCity">City</span>
+              </div>
+            </div>
+            
+            <!-- Quick Features -->
+            <div class="grid grid-cols-4 gap-2 mt-3 text-center">
+              <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <p class="text-[10px] text-slate-400 uppercase font-bold">KM Run</p>
+                <p id="modalKm" class="text-xs font-bold text-slate-800 mt-0.5">-</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <p class="text-[10px] text-slate-400 uppercase font-bold">Fuel</p>
+                <p id="modalFuel" class="text-xs font-bold text-slate-800 mt-0.5">-</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <p class="text-[10px] text-slate-400 uppercase font-bold">Transmission</p>
+                <p id="modalTrans" class="text-xs font-bold text-slate-800 mt-0.5">-</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <p class="text-[10px] text-slate-400 uppercase font-bold">Owners</p>
+                <p id="modalOwner" class="text-xs font-bold text-slate-800 mt-0.5">-</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price & Contact Box -->
+          <div class="md:col-span-5 bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between h-full space-y-4">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase">Fixed Transparent Price</p>
+              <div class="flex items-baseline gap-2 mt-1">
+                <span id="modalPrice" class="text-3xl font-extrabold font-heading text-slate-900">₹0</span>
+                <span class="text-xs text-slate-500 font-medium">All taxes incl.</span>
+              </div>
+              <p id="modalEmi" class="text-xs font-bold text-emerald-600 mt-1 flex items-center gap-1">
+                <i class="fa-solid fa-calculator"></i> EMI starts at ₹0/month
+              </p>
+            </div>
+
+            <div class="space-y-2.5 pt-2 border-t border-slate-200">
+              <a id="modalWhatsappBtn" href="#" target="_blank" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition">
+                <i class="fa-brands fa-whatsapp text-base"></i> Chat with Verified Seller
+              </a>
+              <button onclick="document.getElementById('testDriveSection').scrollIntoView({behavior: 'smooth'})" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition">
+                <i class="fa-regular fa-calendar-check"></i> Schedule Free Test Drive
+              </button>
+            </div>
+
+            <div class="text-[11px] text-slate-500 text-center font-medium">
+              <i class="fa-solid fa-shield text-orange-500 mr-1"></i> 7 Days Money-Back Guarantee Available
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 140-Point Inspection Breakdown -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-clipboard-check text-emerald-600"></i> Engineer Inspection Report & Condition Score
+          </h4>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-semibold text-slate-600">Engine & Gear</span>
+                <span class="font-extrabold text-emerald-600">9.4/10</span>
+              </div>
+              <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 94%"></div>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-1">No smoke / smooth idle</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-semibold text-slate-600">Tyres & Alloy</span>
+                <span class="font-extrabold text-emerald-600">8.8/10</span>
+              </div>
+              <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 88%"></div>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-1">~75% tread life remaining</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-semibold text-slate-600">Body & Paint</span>
+                <span class="font-extrabold text-emerald-600">9.0/10</span>
+              </div>
+              <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 90%"></div>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-1">Minor scratch on bumper</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-semibold text-slate-600">Electricals / AC</span>
+                <span class="font-extrabold text-emerald-600">9.6/10</span>
+              </div>
+              <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 96%"></div>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-1">Chilling AC / lights crisp</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Test Drive Inline Form -->
+        <div id="testDriveSection" class="p-5 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="p-2 bg-orange-600 rounded-lg text-xs"><i class="fa-solid fa-car-side"></i></span>
+            <div>
+              <h4 class="font-bold text-sm">Book a Free Doorstep Test Drive</h4>
+              <p class="text-xs text-slate-300">We bring the vehicle to your home or office address in Chennai / TN.</p>
+            </div>
+          </div>
+          <form onsubmit="handleBookTestDrive(event)" class="grid sm:grid-cols-3 gap-3 mt-4">
+            <input type="text" placeholder="Your Name" required class="bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-orange-500">
+            <input type="tel" placeholder="Mobile Number" required class="bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-orange-500">
+            <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-xs py-2 transition">
+              Confirm Test Drive
+            </button>
+          </form>
+          <div id="testDriveFeedback" class="hidden text-xs text-emerald-400 font-bold mt-2">
+            <i class="fa-solid fa-circle-check"></i> Request received! Our relationship manager will call you within 15 mins.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SELL VEHICLE MODAL ================= -->
+  <div id="sellModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 my-auto animate-in fade-in zoom-in-95 duration-200">
+      
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-orange-100 text-orange-700">Quick Listing</span>
+          <h3 class="text-xl font-black font-heading text-slate-900 mt-1">Sell Your Car or Bike Today</h3>
+        </div>
+        <button onclick="closeSellModal()" class="w-9 h-9 rounded-full bg-slate-200/80 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSellVehicleSubmit(event)" class="p-6 space-y-4">
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Vehicle Category *</label>
+            <select id="sellType" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+              <option value="Car">Car / SUV</option>
+              <option value="Bike">Motorcycle / Scooter</option>
+              <option value="Superbike">Superbike</option>
+              <option value="Electric">Electric Vehicle</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Brand Name *</label>
+            <input type="text" id="sellBrand" required placeholder="e.g. Royal Enfield, Hyundai" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Model & Variant *</label>
+          <input type="text" id="sellModel" required placeholder="e.g. Hunter 350 Dapper Ash / i20 Asta 1.2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Model Year *</label>
+            <input type="number" id="sellYear" min="2005" max="2026" value="2022" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">KM Driven *</label>
+            <input type="number" id="sellKm" placeholder="e.g. 18500" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">City Location *</label>
+            <select id="sellCity" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+              <option value="Chennai">Chennai</option>
+              <option value="Coimbatore">Coimbatore</option>
+              <option value="Madurai">Madurai</option>
+              <option value="Salem">Salem</option>
+              <option value="Trichy">Trichy</option>
+              <option value="Bengaluru">Bengaluru</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Fuel *</label>
+            <select id="sellFuel" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+              <option value="Petrol">Petrol</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Electric">Electric</option>
+              <option value="CNG">CNG</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Transmission</label>
+            <select id="sellTrans" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+              <option value="Manual">Manual</option>
+              <option value="Automatic">Automatic</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Owners *</label>
+            <select id="sellOwner" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+              <option value="1st Owner">1st Owner</option>
+              <option value="2nd Owner">2nd Owner</option>
+              <option value="3rd Owner">3rd Owner</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Expected Selling Price (₹) *</label>
+          <input type="number" id="sellPrice" placeholder="e.g. 520000" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Photo URL (or Unsplash sample link)</label>
+          <input type="url" id="sellPhotoUrl" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-medium focus:ring-2 focus:ring-orange-500 outline-none">
+          <p class="text-[10px] text-slate-400 mt-1">Leave empty to use default high-res sample showcase photography.</p>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-orange-600/25">
+          List My Vehicle for Free
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl border border-slate-800 flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300">
+    <div id="toastIcon" class="text-emerald-400 text-base"><i class="fa-solid fa-circle-check"></i></div>
+    <div id="toastMessage" class="text-xs font-bold">Vehicle listed successfully!</div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-900 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center text-white font-bold">
+              <i class="fa-solid fa-gauge-high"></i>
+            </div>
+            <span class="text-xl font-bold font-heading text-white">Vandi<span class="text-orange-500">Bazaar</span></span>
+          </div>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            The gold standard for pre-loved cars and bikes across Chennai, Coimbatore, Madurai, and Bengaluru.
+          </p>
+          <div class="flex gap-3 text-slate-400 pt-2">
+            <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-base"></i></a>
+            <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-base"></i></a>
+            <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube text-base"></i></a>
+            <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp text-base"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="text-white font-bold uppercase tracking-wider text-[11px] mb-3">Popular Second Hand Cars</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Used Maruti Suzuki Swift</a></li>
+            <li><a href="#" class="hover:text-white transition">Used Hyundai Creta SUV</a></li>
+            <li><a href="#" class="hover:text-white transition">Used Tata Nexon EV</a></li>
+            <li><a href="#" class="hover:text-white transition">Used Honda City VMT</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="text-white font-bold uppercase tracking-wider text-[11px] mb-3">Popular Used Bikes</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Royal Enfield Classic 350</a></li>
+            <li><a href="#" class="hover:text-white transition">Yamaha MT-15 / R15 V4</a></li>
+            <li><a href="#" class="hover:text-white transition">KTM Duke 250 & 390</a></li>
+            <li><a href="#" class="hover:text-white transition">Ather 450X Gen 3</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="text-white font-bold uppercase tracking-wider text-[11px] mb-3">Customer Support</h5>
+          <p class="text-slate-400 leading-relaxed mb-2">Mon - Sat : 9:00 AM - 8:00 PM</p>
+          <p class="text-white font-bold flex items-center gap-2 mb-1">
+            <i class="fa-solid fa-phone text-orange-500"></i> 1800-425-VANDI (Free)
+          </p>
+          <p class="text-slate-400 flex items-center gap-2">
+            <i class="fa-solid fa-envelope text-orange-500"></i> support@vandibazaar.in
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-slate-900 text-center text-slate-500 text-[11px]">
+        &copy; 2026 VandiBazaar Marketplace Technologies Ltd. Designed for high accessibility, speed, and trust.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // Demo Database of Inspected Second-Hand Cars & Bikes
+    let vehicles = [
+      {
+        id: 1,
+        title: "Hyundai Creta SX (O) Turbo Petrol",
+        category: "Car",
+        brand: "Hyundai",
+        model: "Creta SX",
+        year: 2021,
+        km: 32000,
+        fuel: "Petrol",
+        transmission: "Automatic",
+        owner: "1st Owner",
+        city: "Chennai",
+        price: 1350000,
+        emi: "₹24,800/mo",
+        image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.5/10",
+        sellerPhone: "919876543210"
+      },
+      {
+        id: 2,
+        title: "Royal Enfield Hunter 350 Dapper Ash",
+        category: "Bike",
+        brand: "Royal Enfield",
+        model: "Hunter 350",
+        year: 2023,
+        km: 9800,
+        fuel: "Petrol",
+        transmission: "Manual",
+        owner: "1st Owner",
+        city: "Coimbatore",
+        price: 142000,
+        emi: "₹3,450/mo",
+        image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.7/10",
+        sellerPhone: "919876543211"
+      },
+      {
+        id: 3,
+        title: "Maruti Suzuki Swift ZXi Dual Tone",
+        category: "Car",
+        brand: "Maruti Suzuki",
+        model: "Swift ZXi",
+        year: 2022,
+        km: 21500,
+        fuel: "Petrol",
+        transmission: "Manual",
+        owner: "1st Owner",
+        city: "Madurai",
+        price: 685000,
+        emi: "₹12,400/mo",
+        image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.2/10",
+        sellerPhone: "919876543212"
+      },
+      {
+        id: 4,
+        title: "Yamaha MT-15 Version 2.0 Metallic",
+        category: "Bike",
+        brand: "Yamaha",
+        model: "MT-15 V2",
+        year: 2022,
+        km: 14000,
+        fuel: "Petrol",
+        transmission: "Manual",
+        owner: "1st Owner",
+        city: "Chennai",
+        price: 135000,
+        emi: "₹3,100/mo",
+        image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.3/10",
+        sellerPhone: "919876543213"
+      },
+      {
+        id: 5,
+        title: "Tata Nexon EV Max XZ Plus",
+        category: "Electric",
+        brand: "Tata",
+        model: "Nexon EV Max",
+        year: 2023,
+        km: 18000,
+        fuel: "Electric",
+        transmission: "Automatic",
+        owner: "1st Owner",
+        city: "Bengaluru",
+        price: 1390000,
+        emi: "₹25,200/mo",
+        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.8/10",
+        sellerPhone: "919876543214"
+      },
+      {
+        id: 6,
+        title: "Kawasaki Ninja 650 ABS KRT Edition",
+        category: "Superbike",
+        brand: "Kawasaki",
+        model: "Ninja 650",
+        year: 2021,
+        km: 11200,
+        fuel: "Petrol",
+        transmission: "Manual",
+        owner: "2nd Owner",
+        city: "Chennai",
+        price: 490000,
+        emi: "₹10,500/mo",
+        image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.1/10",
+        sellerPhone: "919876543215"
+      },
+      {
+        id: 7,
+        title: "Honda City VX CVT Sunroof",
+        category: "Car",
+        brand: "Honda",
+        model: "City 5th Gen",
+        year: 2020,
+        km: 44000,
+        fuel: "Petrol",
+        transmission: "Automatic",
+        owner: "2nd Owner",
+        city: "Salem",
+        price: 890000,
+        emi: "₹16,200/mo",
+        image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.0/10",
+        sellerPhone: "919876543216"
+      },
+      {
+        id: 8,
+        title: "Ather 450X Gen 3 Pro Pack",
+        category: "Electric",
+        brand: "Ather",
+        model: "450X Gen3",
+        year: 2023,
+        km: 8400,
+        fuel: "Electric",
+        transmission: "Automatic",
+        owner: "1st Owner",
+        city: "Coimbatore",
+        price: 118000,
+        emi: "₹2,800/mo",
+        image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=900&q=80",
+        inspected: true,
+        score: "9.6/10",
+        sellerPhone: "919876543217"
+      }
+    ];
+
+    let savedVehicles = new Set();
+    let currentCategoryFilter = "All";
+
+    // Format currency to Indian Rupee standard
+    function formatINR(val) {
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+      }).format(val);
+    }
+
+    // Initialize View
+    window.onload = function() {
+      renderVehicles(vehicles);
+      setupEventListeners();
+    };
+
+    function setupEventListeners() {
+      // Global text search input
+      const searchBox = document.getElementById('globalSearch');
+      if (searchBox) {
+        searchBox.addEventListener('input', () => applyAllFilters());
+      }
+
+      // Location selector
+      const locSelect = document.getElementById('locationSelector');
+      if (locSelect) {
+        locSelect.addEventListener('change', () => applyAllFilters());
+      }
+    }
+
+    // Render Cards to the grid
+    function renderVehicles(items) {
+      const grid = document.getElementById('vehiclesGrid');
+      const noResults = document.getElementById('noResultsState');
+      const countPill = document.getElementById('resultCountPill');
+
+      countPill.textContent = `Showing ${items.length} vehicle${items.length === 1 ? '' : 's'}`;
+
+      if (items.length === 0) {
+        grid.innerHTML = "";
+        noResults.classList.remove('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+
+      grid.innerHTML = items.map(v => {
+        const isFavorite = savedVehicles.has(v.id);
+        const iconHeart = isFavorite ? 'fa-solid text-red-500' : 'fa-regular text-slate-600';
+
+        return `
+          <div class="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 flex flex-col group">
+            
+            <!-- Image & Badges -->
+            <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+              <img 
+                src="${v.image}" 
+                alt="${v.title}" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                onerror="this.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80'"
+              >
+              
+              <!-- Certified Tag -->
+              <div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-md">
+                <i class="fa-solid fa-certificate text-emerald-400"></i>
+                <span>Certified ${v.score}</span>
+              </div>
+
+              <!-- Save button -->
+              <button 
+                onclick="toggleSaveVehicle(${v.id})" 
+                class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md shadow flex items-center justify-center hover:scale-110 active:scale-95 transition"
+                title="Save to favorites">
+                <i class="${iconHeart} text-sm"></i>
+              </button>
+
+              <!-- Category & City Pill -->
+              <div class="absolute bottom-3 left-3 flex gap-2">
+                <span class="bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-md flex items-center gap-1">
+                  <i class="fa-solid fa-location-dot text-orange-400 text-[10px]"></i> ${v.city}
+                </span>
+                <span class="bg-orange-600/90 backdrop-blur-md text-white text-[11px] font-bold px-2 py-1 rounded-md">
+                  ${v.year} Model
+                </span>
+              </div>
+            </div>
+
+            <!-- Vehicle Details -->
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">${v.brand}</span>
+                  <span class="text-slate-300">•</span>
+                  <span class="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded">${v.category}</span>
+                </div>
+                
+                <h3 class="text-base font-extrabold font-heading text-slate-900 group-hover:text-orange-600 transition line-clamp-1">
+                  ${v.title}
+                </h3>
+
+                <!-- Key Metrics Specs -->
+                <div class="grid grid-cols-3 gap-2 mt-3.5 py-2.5 px-3 bg-slate-50 rounded-2xl text-[11px] font-semibold text-slate-600">
+                  <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-road text-slate-400"></i>
+                    <span>${v.km.toLocaleString()} km</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-gas-pump text-slate-400"></i>
+                    <span>${v.fuel}</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-check text-slate-400"></i>
+                    <span>${v.owner}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Price & Action CTA -->
+              <div class="mt-5 pt-4 border-t border-slate-100">
+                <div class="flex items-baseline justify-between mb-3">
+                  <div>
+                    <span class="text-xl font-black font-heading text-slate-900">${formatINR(v.price)}</span>
+                    <p class="text-[10px] font-bold text-emerald-600">${v.emi}</p>
+                  </div>
+                  <span class="text-[11px] text-slate-400 font-medium">Fixed Best Price</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <button 
+                    onclick="openDetailsModal(${v.id})" 
+                    class="w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-eye text-slate-500"></i>
+                    <span>Details & Score</span>
+                  </button>
+
+                  <a 
+                    href="https://wa.me/${v.sellerPhone}?text=Hi,%20I%20am%20interested%20in%20buying%20your%20${encodeURIComponent(v.title)}%20listed%20on%20VandiBazaar." 
+                    target="_blank" 
+                    class="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Unified Filter logic
+    function applyAllFilters() {
+      const globalSearchText = (document.getElementById('globalSearch')?.value || "").toLowerCase().trim();
+      const locationVal = document.getElementById('locationSelector')?.value || "All";
+      const maxPrice = parseInt(document.getElementById('sideBudgetSlider')?.value || 2500000);
+      const selectedType = document.querySelector('input[name="sideType"]:checked')?.value || "All";
+      const sortBy = document.getElementById('sortBy')?.value || "featured";
+
+      // Selected fuels
+      const checkedFuels = Array.from(document.querySelectorAll('input[name="fuelFilter"]:checked')).map(el => el.value);
+
+      // Selected owners
+      const checkedOwners = Array.from(document.querySelectorAll('input[name="ownerFilter"]:checked')).map(el => el.value);
+
+      // Selected Transmission
+      const selectedTrans = document.querySelector('input[name="transFilter"]:checked')?.value || "All";
+
+      let filtered = vehicles.filter(v => {
+        // Category Pill
+        if (currentCategoryFilter !== "All") {
+          if (currentCategoryFilter === "Car" && v.category !== "Car") return false;
+          if (currentCategoryFilter === "Bike" && v.category !== "Bike" && v.category !== "Superbike") return false;
+          if (currentCategoryFilter === "Superbike" && v.category !== "Superbike") return false;
+          if (currentCategoryFilter === "Electric" && v.category !== "Electric") return false;
+        }
+
+        // Side vehicle type
+        if (selectedType !== "All") {
+          if (selectedType === "Car" && v.category !== "Car") return false;
+          if (selectedType === "Bike" && v.category !== "Bike" && v.category !== "Superbike") return false;
+        }
+
+        // Location
+        if (locationVal !== "All" && v.city !== locationVal) {
+          return false;
+        }
+
+        // Price
+        if (v.price > maxPrice) return false;
+
+        // Fuel
+        if (checkedFuels.length > 0 && !checkedFuels.includes(v.fuel)) {
+          return false;
+        }
+
+        // Owners
+        if (checkedOwners.length > 0 && !checkedOwners.includes(v.owner)) {
+          return false;
+        }
+
+        // Transmission
+        if (selectedTrans !== "All" && v.transmission !== selectedTrans) {
+          return false;
+        }
+
+        // Search query
+        if (globalSearchText) {
+          const matchStr = `${v.title} ${v.brand} ${v.model} ${v.city} ${v.fuel}`.toLowerCase();
+          if (!matchStr.includes(globalSearchText)) return false;
+        }
+
+        return true;
+      });
+
+      // Sorting
+      if (sortBy === "price-asc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "price-desc") {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortBy === "km-asc") {
+        filtered.sort((a, b) => a.km - b.km);
+      } else if (sortBy === "year-desc") {
+        filtered.sort((a, b) => b.year - a.year);
+      }
+
+      renderVehicles(filtered);
+    }
+
+    // Category Pill switcher
+    function filterCategory(cat) {
+      currentCategoryFilter = cat;
+      const pills = document.querySelectorAll('.category-pill');
+      pills.forEach(p => {
+        p.classList.remove('bg-slate-900', 'text-white', 'shadow-sm');
+        p.classList.add('bg-white', 'text-slate-700');
+      });
+
+      event.currentTarget.classList.add('bg-slate-900', 'text-white', 'shadow-sm');
+      event.currentTarget.classList.remove('bg-white', 'text-slate-700');
+
+      applyAllFilters();
+    }
+
+    // Hero Quick Filter logic
+    let heroVehicleType = 'Car';
+    function selectHeroType(type) {
+      heroVehicleType = type;
+      const carBtn = document.getElementById('heroTabCar');
+      const bikeBtn = document.getElementById('heroTabBike');
+      const budgetSlider = document.getElementById('heroBudgetSlider');
+
+      if (type === 'Car') {
+        carBtn.className = "py-2 text-xs font-bold rounded-lg text-white bg-slate-900 shadow transition-all";
+        bikeBtn.className = "py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition-all";
+        budgetSlider.max = 2500000;
+        budgetSlider.value = 1200000;
+        updateHeroBudgetValue(1200000);
+      } else {
+        bikeBtn.className = "py-2 text-xs font-bold rounded-lg text-white bg-slate-900 shadow transition-all";
+        carBtn.className = "py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition-all";
+        budgetSlider.max = 500000;
+        budgetSlider.value = 180000;
+        updateHeroBudgetValue(180000);
+      }
+    }
+
+    function updateHeroBudgetValue(val) {
+      document.getElementById('heroBudgetDisplay').textContent = formatINR(val);
+    }
+
+    function updateSidePriceDisplay(val) {
+      document.getElementById('sideBudgetVal').textContent = formatINR(val);
+      applyAllFilters();
+    }
+
+    function applyHeroFilters() {
+      const brand = document.getElementById('heroBrandSelect').value;
+      const maxBudget = parseInt(document.getElementById('heroBudgetSlider').value);
+
+      // Sync side inputs
+      const sideSlider = document.getElementById('sideBudgetSlider');
+      if (sideSlider) {
+        sideSlider.value = maxBudget;
+        updateSidePriceDisplay(maxBudget);
+      }
+
+      // Check corresponding radio
+      const radio = document.querySelector(`input[name="sideType"][value="${heroVehicleType}"]`);
+      if (radio) radio.checked = true;
+
+      if (brand !== "All") {
+        const search = document.getElementById('globalSearch');
+        if (search) search.value = brand;
+      }
+
+      applyAllFilters();
+
+      // Scroll smoothly to results
+      document.getElementById('vehiclesGrid').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetFilters() {
+      currentCategoryFilter = "All";
+      const globalSearch = document.getElementById('globalSearch');
+      if (globalSearch) globalSearch.value = "";
+
+      const sideSlider = document.getElementById('sideBudgetSlider');
+      if (sideSlider) {
+        sideSlider.value = 2500000;
+        updateSidePriceDisplay(2500000);
+      }
+
+      const allRadio = document.querySelector('input[name="sideType"][value="All"]');
+      if (allRadio) allRadio.checked = true;
+
+      const transRadio = document.querySelector('input[name="transFilter"][value="All"]');
+      if (transRadio) transRadio.checked = true;
+
+      document.querySelectorAll('input[name="fuelFilter"]').forEach(cb => cb.checked = true);
+      document.querySelectorAll('input[name="ownerFilter"]').forEach(cb => cb.checked = true);
+
+      applyAllFilters();
+    }
+
+    // Toggle Wishlist / Saved items
+    function toggleSaveVehicle(id) {
+      if (savedVehicles.has(id)) {
+        savedVehicles.delete(id);
+        showToast("Removed from your saved garage", "info");
+      } else {
+        savedVehicles.add(id);
+        showToast("Added to your saved vehicles", "success");
+      }
+      document.getElementById('savedCountBadge').textContent = savedVehicles.size;
+      applyAllFilters();
+    }
+
+    // Vehicle Details Modal
+    function openDetailsModal(id) {
+      const v = vehicles.find(item => item.id === id);
+      if (!v) return;
+
+      document.getElementById('modalTitle').textContent = v.title;
+      document.getElementById('modalCategoryBadge').textContent = v.category;
+      document.getElementById('modalCity').textContent = v.city;
+      document.getElementById('modalMainImg').src = v.image;
+      document.getElementById('modalKm').textContent = v.km.toLocaleString() + " KM";
+      document.getElementById('modalFuel').textContent = v.fuel;
+      document.getElementById('modalTrans').textContent = v.transmission;
+      document.getElementById('modalOwner').textContent = v.owner;
+      document.getElementById('modalPrice').textContent = formatINR(v.price);
+      document.getElementById('modalEmi').innerHTML = `<i class="fa-solid fa-calculator"></i> EMI starts at ${v.emi}`;
+      
+      const wpBtn = document.getElementById('modalWhatsappBtn');
+      wpBtn.href = `https://wa.me/${v.sellerPhone}?text=Hi,%20I%20am%20interested%20in%20inspecting%20${encodeURIComponent(v.title)}%20priced%20at%20${formatINR(v.price)}.`;
+
+      document.getElementById('testDriveFeedback').classList.add('hidden');
+
+      const modal = document.getElementById('detailsModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDetailsModal() {
+      const modal = document.getElementById('detailsModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleBookTestDrive(e) {
+      e.preventDefault();
+      document.getElementById('testDriveFeedback').classList.remove('hidden');
+      showToast("Test drive appointment requested!", "success");
+    }
+
+    // Sell Modal Interactions
+    const openSellBtn = document.getElementById('openSellModalBtn');
+    if (openSellBtn) {
+      openSellBtn.addEventListener('click', () => {
+        const modal = document.getElementById('sellModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      });
+    }
+
+    function closeSellModal() {
+      const modal = document.getElementById('sellModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleSellVehicleSubmit(e) {
+      e.preventDefault();
+      
+      const type = document.getElementById('sellType').value;
+      const brand = document.getElementById('sellBrand').value;
+      const model = document.getElementById('sellModel').value;
+      const year = parseInt(document.getElementById('sellYear').value);
+      const km = parseInt(document.getElementById('sellKm').value);
+      const city = document.getElementById('sellCity').value;
+      const fuel = document.getElementById('sellFuel').value;
+      const transmission = document.getElementById('sellTrans').value;
+      const owner = document.getElementById('sellOwner').value;
+      const price = parseInt(document.getElementById('sellPrice').value);
+      let img = document.getElementById('sellPhotoUrl').value;
+
+      if (!img) {
+        img = type === 'Bike' 
+          ? "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=900&q=80" 
+          : "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80";
+      }
+
+      const newListing = {
+        id: Date.now(),
+        title: `${brand} ${model} (${year})`,
+        category: type,
+        brand: brand,
+        model: model,
+        year: year,
+        km: km,
+        fuel: fuel,
+        transmission: transmission,
+        owner: owner,
+        city: city,
+        price: price,
+        emi: `₹${Math.round(price * 0.02).toLocaleString()}/mo`,
+        image: img,
+        inspected: true,
+        score: "9.0/10",
+        sellerPhone: "919876543210"
+      };
+
+      vehicles.unshift(newListing);
+      closeSellModal();
+      applyAllFilters();
+      showToast("Your vehicle listing is live & certified!", "success");
+      e.target.reset();
+    }
+
+    // Responsive Mobile Filter Drawer Toggle
+    function toggleMobileFilter() {
+      const sidebar = document.getElementById('filterSidebar');
+      if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+        sidebar.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        sidebar.classList.add('hidden');
+      }
+    }
+
+    // Accessible Toast Notification
+    function showToast(msg, type = "success") {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      const icon = document.getElementById('toastIcon');
+
+      text.textContent = msg;
+      if (type === "success") {
+        icon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+      } else {
+        icon.innerHTML = '<i class="fa-solid fa-circle-info text-blue-400"></i>';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    // Close modals on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDetailsModal();
+        closeSellModal();
+      }
+    });
+  </script>
+</body>
+</html>
